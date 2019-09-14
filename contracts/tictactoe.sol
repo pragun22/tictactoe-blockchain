@@ -180,8 +180,21 @@ contract tictactoe {
             {
                 int ret3 = move(mov,0);
                 if(ret3==1){
-                    stats = "game won by player 1";
                     num_games++;
+                    if(num_games == 4)
+                    {
+                        stats = "Game Over!";
+                        uint total_bet1 = p1_bet+p2_bet;
+                        if(score[0] > score[1])
+                        {
+                            player1.transfer(total_bet1);
+                        }
+                        else if( score[1] > score[0])
+                        {
+                            player2.transfer(total_bet1);
+                        }
+                    }
+                    else stats = "game won by player 1";
                     flag = false;
                     return;
                 }
@@ -195,8 +208,21 @@ contract tictactoe {
             else if(msg.sender == player2 && turn==0){
                 int ret4 = move(mov,1);
                 if(ret4==1){
-                    stats = "game won by player 2";
                     num_games++;
+                    if(num_games == 4)
+                    {
+                        stats = "Game Over!";
+                        uint total_bet2 = p1_bet+p2_bet;
+                        if(score[0] > score[1])
+                        {
+                            player1.transfer(total_bet2);
+                        }
+                        else if( score[1] > score[0])
+                        {
+                            player2.transfer(total_bet2);
+                        }
+                    }
+                    else stats = "game won by player 2";
                     flag = false;
                     return;
                 }
@@ -215,7 +241,20 @@ contract tictactoe {
             {
                 flag = false;
                 num_games++;
-                stats = "Its a draw";
+                if(num_games == 4)
+                {
+                    stats = "Game Over!";
+                    uint total_bet3 = p1_bet+p2_bet;
+                    if(score[0] > score[1])
+                    {
+                        player1.transfer(total_bet3);
+                    }
+                    else if( score[1] > score[0])
+                    {
+                        player2.transfer(total_bet3);
+                    }
+                }
+                else stats = "Its a draw";
                 return;
             }
             if(turn==1)
@@ -227,18 +266,19 @@ contract tictactoe {
                 stats = "player 1 made move";
             }
         }
-        if(num_games == 4)
-        {
-            uint total_bet = p1_bet+p2_bet;
-            if(score[0] > score[1])
-            {
-                player1.transfer(total_bet);
-            }
-            else if( score[1] > score[0])
-            {
-                player2.transfer(total_bet);
-            }
-        }
+        // if(num_games == 4)
+        // {
+        //     stats = "Game Over!";
+        //     uint total_bet = p1_bet+p2_bet;
+        //     if(score[0] > score[1])
+        //     {
+        //         player1.transfer(total_bet);
+        //     }
+        //     else if( score[1] > score[0])
+        //     {
+        //         player2.transfer(total_bet);
+        //     }
+        // }
 
     }
 }
