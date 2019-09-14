@@ -4,10 +4,10 @@ pragma solidity >=0.4.22 <0.6.0;
 // "o" -> 2
 
 contract tictactoe {
-    uint[] board = new uint[](9);
+    uint[] board = new uint[](10);
     address player1;
     address player2;
-    uint[][] pattern = [[0,1,2],[3,4,5],[6,7,8], [0,3,6],[1,4,7],[2,5,8], [0,4,8],[2,4,6]  ];
+    uint[][] pattern = [[1,2,3],[4,5,6],[7,8,9], [1,4,7],[2,5,8],[3,6,9], [1,5,9],[3,5,7]  ];
 
     uint turn = 0;
     uint private p1_bet;
@@ -62,7 +62,7 @@ contract tictactoe {
     }
 
     function init_board() public {
-        for(uint i = 0;i < 9;i++)
+        for(uint i = 1;i <= 9;i++)
         {
             board[i] = 0;
         }
