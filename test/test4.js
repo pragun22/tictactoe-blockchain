@@ -10,11 +10,11 @@ contract("tictactoe", accounts =>{
     const st4 = "Game is currently going on";
     const st5 = "Hacker trying to enter as player 1";
     const st6 = "Hacker trying to enter as player 2";
-    it("player2 trying to join before player1", async()=> {
+    it("hacker trying to join as player 1 and player 2", async()=> {
     
         let tic = await tictactoe.deployed();
         let status0 = await tic.status.call();
-        // await tic.joinplayer2({from:p2});
+
         await tic.joinplayer1({from:p1});
         let status1 = await tic.status.call();
 

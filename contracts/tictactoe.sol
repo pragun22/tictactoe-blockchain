@@ -19,6 +19,40 @@ contract tictactoe {
     uint num_moves = 0;
     uint[] score = new uint[](2);
     uint hack = 0;
+    string stats = "valid";
+
+    function strConcat(string _a, string _b, string _c, string _d, string _e) internal pure returns (string){
+    bytes memory _ba = bytes(_a);
+    bytes memory _bb = bytes(_b);
+    bytes memory _bc = bytes(_c);
+    bytes memory _bd = bytes(_d);
+    bytes memory _be = bytes(_e);
+    string memory abcde = new string(_ba.length + _bb.length + _bc.length + _bd.length + _be.length);
+    bytes memory babcde = bytes(abcde);
+    uint k = 0;
+    for (uint i = 0; i < _ba.length; i++) babcde[k++] = _ba[i];
+    for (i = 0; i < _bb.length; i++) babcde[k++] = _bb[i];
+    for (i = 0; i < _bc.length; i++) babcde[k++] = _bc[i];
+    for (i = 0; i < _bd.length; i++) babcde[k++] = _bd[i];
+    for (i = 0; i < _be.length; i++) babcde[k++] = _be[i];
+    return string(babcde);
+}
+
+    function uintToString(uint v)internal pure returns (string str) {
+        uint maxlength = 100;
+        bytes memory reversed = new bytes(maxlength);
+        uint i = 0;
+        while (v != 0) {
+            uint remainder = v % 10;
+            v = v / 10;
+            reversed[i++] = byte(48 + remainder);
+        }
+        bytes memory s = new bytes(i + 1);
+        for (uint j = 0; j <= i; j++) {
+            s[j] = reversed[i - j];
+        }
+        str = string(s);
+    }
 
     function joinplayer1() public payable returns (string memory){
         if(p1_in){
@@ -60,12 +94,11 @@ contract tictactoe {
         return "Game begins!!!!!";
     }
 
-    function init_board(uint inc) public {
+    function init_board() public {
         for(uint i = 0;i < 9;i++)
         {
             board[i] = 0;
         }
-        turn = inc % 2;
     }
 
     function move(uint cell, uint pl) public returns (int) {
@@ -77,6 +110,7 @@ contract tictactoe {
             return 1;
         }
         turn ^= 1;
+        stats = "valid";
         return 0;
     }
 
@@ -89,16 +123,25 @@ contract tictactoe {
         return 0;
     }
 
-    function gameStatus() public view returns(uint, uint, uint){
-        return(num_games,num_moves,turn);
+    function gameStatus() public view returns(string){
+        return stats;
     }
 
-    function game(uint mov) public returns (string memory){
-        if(!p1_in || !p2_in) return "Can't play a game without two players";
+    function game(uint mov) public{
+        if(!p1_in || !p2_in) 
+        {
+            stats = "Can't play a game without two players";
+            return;
+        }
 
-        if(mov < 1 || mov > 9) return "Invalid move";
+        if(mov < 1 || mov > 9)
+        {
+            stats = "Invalid move";
+            return;
+        }
         if(num_games == 0 || num_games == 2){
             if(flag==false){
+                init_board();
                 num_moves = 0;
                 turn = 0;
                 flag = true;
@@ -107,35 +150,53 @@ contract tictactoe {
             {
                 int ret1 = move(mov,0);
                 if(ret1==1){
-                    return "first game won by player 1";
+                    stats = "first game won by player 1";
                     num_games++;
                     flag = false;
+                    return;
                 }
                 else if(ret1==-1){
-                    return "cell already filled";
+                    stats = "cell already filled";
+                    return;
                 }
                 num_moves++;
             }
             else if(msg.sender == player2 && turn==1){
                 int ret2 = move(mov,1);
                 if(ret2==1){
-                    return "first game won by player 2";
+                    stats = "first game won by player 2";
                     num_games++;
                     flag = false;
+                    return;
                 }
                 else if(ret2==-1){
-                    return "cell already filled";
+                    stats = "cell already filled";
+                    return;
                 }
                 num_moves++;
             }
             else{
-                return "Its not your turn to play";
+                stats = "Its not your turn to play";
+                return;
             }
             if(num_moves==9)
             {
                 flag = false;
                 num_games++;
-                return "Its a draw";
+                stats = "Its a draw";
+                return;
+            }
+            if(turn==0)
+            {
+                stats = "player 2 made move";
+                // string memory temp1 = "player 2 made move at ";
+                // stats = strConcat(temp1,uintToString(mov), "", "", "");
+            }
+            else
+            {
+                stats = "player 1 made move";
+                // string memory temp2 = "player 1 made move at ";
+                // stats = strConcat(temp2,uintToString(mov), "", "", "");
             }
         }
         else if(num_games == 1 || num_games == 3)
@@ -149,35 +210,52 @@ contract tictactoe {
             {
                 int ret3 = move(mov,0);
                 if(ret3==1){
-                    return "first game won by player 1";
+                    stats = "first game won by player 1";
                     num_games++;
                     flag = false;
+                    return;
                 }
                 else if(ret3==-1){
-                    return "cell already filled";
+                    stats = "cell already filled";
+                    return;
                 }
                 num_moves++;
             }
             else if(msg.sender == player2 && turn==0){
                 int ret4 = move(mov,1);
                 if(ret4==1){
-                    return "first game won by player 2";
+                    stats = "first game won by player 2";
                     num_games++;
                     flag = false;
+                    return;
                 }
                 else if(ret4==-1){
-                    return "cell already filled";
+                    stats = "cell already filled";
+                    return;
                 }
                 num_moves++;
             }
             else{
-                return "Its not your turn to play";
+                stats =  "Its not your turn to play";
+                return;
             }
             if(num_moves==9)
             {
                 flag = false;
                 num_games++;
-                return "Its a draw";
+                stats = "Its a draw";
+                return;
+            }
+            if(turn==1)
+            {
+                stats = "player 2 made move";
+                // string memory temp3 = "player 2 made move at ";
+                // stats = strConcat(temp3,uintToString(mov), "", "", "");
+            }
+            else
+            {
+                stats = "player 1 made move";
+                // stats = strConcat(temp4,uintToString(mov), "", "", "");
             }
         }
         if(num_games == 4)
@@ -192,5 +270,6 @@ contract tictactoe {
                 player2.transfer(total_bet);
             }
         }
+
     }
 }
