@@ -10,34 +10,36 @@ contract("tictactoe", accounts =>{
     const st4 = "Game is currently going on";
     const st5 = "Hacker trying to enter as player 1";
     const st6 = "Hacker trying to enter as player 2";
-    it("game should start", async()=> {
+    it("player2 trying to join before player1", async()=> {
     
         let tic = await tictactoe.deployed();
-        await tic.joinplayer1({from:p1});
+        let status0 = await tic.status.call();
+        await tic.joinplayer2({from:p2});
         let status1 = await tic.status.call();
-        await tic.joinplayer1({from:p2});
+        await tic.joinplayer1({from:p1});
         let status2 = await tic.status.call(); 
         await tic.joinplayer2({from:p2});
-        let status3 = await tic.status.call();        
+        let status3 = await tic.status.call();      
+        assert.equal(
+            status0,
+            st1,
+            "Waiting for player 1 to join"
+        );
         assert.equal(
             status1,
-            st3,
-            "player 1 joined"
+            st1,
+            "Player 2 trying to join as player1"
         );
-    
         assert.equal(
             status2,
-            st5,
-            "Player 2 trying to join as player1"
+            st3,
+            "Player1 joined."
         );
         assert.equal(
             status3,
             st4,
-            "Player 2 joined"
+            "Both players joined"
         );
     });
-
-
-
 
 });

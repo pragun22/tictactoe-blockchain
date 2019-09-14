@@ -18,26 +18,45 @@ contract tictactoe {
     uint num_games = 0;
     uint num_moves = 0;
     uint[] score = new uint[](2);
+    uint hack = 0;
 
     function joinplayer1() public payable returns (string memory){
-        if(p1_in) return "A game in progress";
+        if(p1_in){
+            hack = 1;
+            return "A game in progress";
+        }
+        hack = 0;
         p1_in = true;
         player1 = msg.sender;
         p1_bet = msg.value;
         return "You've joined the game";
     }
     function status() public view returns(string memory){
-        if(!p1_in && !p2_in) return "No player has joined yet";
-        if(!p1_in && p2_in) return "this case is not possible";
-        if(p1_in && !p2_in) return "Waiting for player 2";
-        if(p1_in && p2_in) return "Game is currently going on";
+        if(hack == 0){
+            if(!p1_in && !p2_in) return "No player has joined yet";
+            if(!p1_in && p2_in) return "this case is not possible";
+            if(p1_in && !p2_in) return "Waiting for player 2";
+            if(p1_in && p2_in) return "Game is currently going on";
+        }
+        else if(hack == 1){
+            return "Hacker trying to enter as player 1";
+        }
+        else if(hack == 2){
+            return "Hacker trying to enter as player 2";
+        }
     }
 
     function joinplayer2() public payable returns(string memory){
-        if(!p1_in || p2_in) return "wait for player1 to join";
+        if(!p1_in) return "wait for player1 to join";
+        if(p2_in && player2 != msg.sender) 
+        {
+            hack = 2;
+            return "someone else trying to join as player2";
+        }
         player2 = msg.sender;
         p2_bet = msg.value;
         p2_in = true;
+        hack = 0;
         return "Game begins!!!!!";
     }
 
@@ -76,6 +95,7 @@ contract tictactoe {
 
     function game(uint mov) public returns (string memory){
         if(!p1_in || !p2_in) return "Can't play a game without two players";
+
         if(mov < 1 || mov > 9) return "Invalid move";
         if(num_games == 0 || num_games == 2){
             if(flag==false){
