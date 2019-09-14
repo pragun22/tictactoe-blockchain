@@ -190,7 +190,7 @@ contract("tictactoe", accounts =>{
         );
         assert.equal(
             st22,
-            "Game Over!",
+            "game won by player 1",
             "player 1 moved at 1"
         );
         assert.equal(

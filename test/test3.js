@@ -14,15 +14,13 @@ contract("tictactoe", accounts =>{
     
         let tic = await tictactoe.deployed();
         await tic.joinplayer1({from:p1});
-        let status1 = await tic.status.call();
-        // await tic.joinplayer1({from:p2});
-        // await tic.joinplayer2({from:p2});
-        // let status2 = await tic.status.call(); 
-        // let status3 = await tic.status.call();        
-        let status2 = await tic.game.call(5);
+        let status1 = await tic.gameStatus();
+
+        await tic.game(5,{from:p1});
+        let status2 = await tic.gameStatus();
         assert.equal(
             status1,
-            st3,
+            "valid",
             "player 1 joined"
         );
     

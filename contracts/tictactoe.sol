@@ -20,6 +20,7 @@ contract tictactoe {
     uint[] score = new uint[](2);
     uint hack = 0;
     string stats = "valid";
+    string stats1 = "gameRunning";
 
     function joinplayer1() public payable returns (string memory){
         if(p1_in){
@@ -92,6 +93,10 @@ contract tictactoe {
 
     function gameStatus() public view returns(string){
         return stats;
+    }
+
+    function gameOver() public view returns(string){
+        return stats1;
     }
 
     function gamesDone() public view returns(uint){
@@ -183,7 +188,7 @@ contract tictactoe {
                     num_games++;
                     if(num_games == 4)
                     {
-                        stats = "Game Over!";
+                        stats1 = "Game Over!";
                         uint total_bet1 = p1_bet+p2_bet;
                         if(score[0] > score[1])
                         {
@@ -194,7 +199,7 @@ contract tictactoe {
                             player2.transfer(total_bet1);
                         }
                     }
-                    else stats = "game won by player 1";
+                    stats = "game won by player 1";
                     flag = false;
                     return;
                 }
@@ -211,7 +216,7 @@ contract tictactoe {
                     num_games++;
                     if(num_games == 4)
                     {
-                        stats = "Game Over!";
+                        stats1 = "Game Over!";
                         uint total_bet2 = p1_bet+p2_bet;
                         if(score[0] > score[1])
                         {
@@ -222,7 +227,7 @@ contract tictactoe {
                             player2.transfer(total_bet2);
                         }
                     }
-                    else stats = "game won by player 2";
+                    stats = "game won by player 2";
                     flag = false;
                     return;
                 }
@@ -243,7 +248,7 @@ contract tictactoe {
                 num_games++;
                 if(num_games == 4)
                 {
-                    stats = "Game Over!";
+                    stats1 = "Game Over!";
                     uint total_bet3 = p1_bet+p2_bet;
                     if(score[0] > score[1])
                     {
@@ -254,7 +259,7 @@ contract tictactoe {
                         player2.transfer(total_bet3);
                     }
                 }
-                else stats = "Its a draw";
+                stats = "Its a draw";
                 return;
             }
             if(turn==1)
