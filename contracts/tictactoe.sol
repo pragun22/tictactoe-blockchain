@@ -128,7 +128,7 @@ contract tictactoe {
                 }
                 else if(ret1==-1){
                     stats = "cell already filled";
-                    turn ^= 1;
+                    // turn ^= 1;
                     return;
                 }
                 num_moves++;
@@ -143,7 +143,7 @@ contract tictactoe {
                 }
                 else if(ret2==-1){
                     stats = "cell already filled";
-                    turn ^= 1;
+                    // turn ^= 1;
                     return;
                 }
                 num_moves++;
@@ -187,7 +187,7 @@ contract tictactoe {
                 }
                 else if(ret3==-1){
                     stats = "cell already filled";
-                    turn ^= 1;
+                    // turn ^= 1;
                     return;
                 }
                 num_moves++;
@@ -202,7 +202,7 @@ contract tictactoe {
                 }
                 else if(ret4==-1){
                     stats = "cell already filled";
-                    turn ^= 1;
+                    // turn ^= 1;
                     return;
                 }
                 num_moves++;
