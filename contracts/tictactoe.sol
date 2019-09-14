@@ -171,6 +171,7 @@ contract tictactoe {
         else if(num_games == 1 || num_games == 3)
         {
             if(flag==false){
+                init_board();
                 num_moves = 0;
                 turn = 0;
                 flag = true;
