@@ -5,7 +5,7 @@ contract("tictactoe", accounts =>{
     const p2 = accounts[1];
     const hacker = accounts[2];
 
-    it("Player 2 winning Tournament(extensive testing)", async()=> {
+    it("Player 1 winning Tournament(extensive testing)", async()=> {
         let tic = await tictactoe.deployed();
         await tic.joinplayer1({from:p1});
         await tic.joinplayer2({from:p2});
