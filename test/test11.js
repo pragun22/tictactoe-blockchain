@@ -256,6 +256,7 @@ contract("tictactoe", accounts =>{
             4,
             "counter working properly"
         )
+        await tic.close();
 
 
     });

@@ -7,6 +7,7 @@ contract tictactoe {
     uint[] board = new uint[](10);
     address player1;
     address player2;
+    address owner = 0xf25CC9FaE1C90547D66D88Ec73E12c35f6Cc460B;
     uint[][] pattern = [[1,2,3],[4,5,6],[7,8,9], [1,4,7],[2,5,8],[3,6,9], [1,5,9],[3,5,7]  ];
 
     uint turn = 0;
@@ -50,7 +51,7 @@ contract tictactoe {
 
     function joinplayer2() public payable returns(string memory){
         if(!p1_in) return "wait for player1 to join";
-        if(p2_in && player2 != msg.sender) 
+        if(p2_in && player2 != msg.sender)
         {
             hack = 2;
             return "someone else trying to join as player2";
@@ -102,9 +103,14 @@ contract tictactoe {
     function gamesDone() public view returns(uint){
         return num_games;
     }
-
+    function close() public{ //onlyOwner is custom modifier
+        if (num_games==4)
+        {
+            selfdestruct(owner);  // `owner` is the owners address
+        }
+    }
     function game(uint mov) public{
-        if(!p1_in || !p2_in) 
+        if(!p1_in || !p2_in)
         {
             stats = "Can't play a game without two players";
             return;
