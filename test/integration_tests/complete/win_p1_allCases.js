@@ -5,7 +5,7 @@ contract("tictactoe", accounts =>{
     const p2 = accounts[1];
     const hacker = accounts[2];
 
-    it("Player 1 winning Tournament(extensive testing)", async()=> {
+    it("Player-1 wins Tournament(extensive testing => wrong moves, draw game, etc)", async()=> {
         let tic = await tictactoe.deployed();
         await tic.joinplayer1({from:p1});
         await tic.joinplayer2({from:p2});
@@ -59,14 +59,6 @@ contract("tictactoe", accounts =>{
             "game won by player 1",
             "Player1 won game 1"
         );
-
-        // await tic.game(7,{from:p2});
-        // stats = await tic.gameStatus();
-        // assert.equal(
-        //     stats,
-        //     "game won by player 2",
-        //     "Player 2 won"
-        // );
 
         // Game2
         await tic.game(1,{from:p1});

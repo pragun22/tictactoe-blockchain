@@ -7,12 +7,8 @@ contract("tictactoe", accounts =>{
     const check1 = "cell already filled";
     const check2 = "player 1 made move";
     const check3 = "player 2 made move";
-    // const st3 =  "Waiting for player 2";
-    // const st4 = "Game is currently going on";
-    // const st5 = "Hacker trying to enter as player 1";
-    // const st6 = "Hacker trying to enter as player 2";
 
-    it("player2 trying to move in occupied cell", async()=> {
+    it("Player-2 moving in filled cell test", async()=> {
     
         let tic = await tictactoe.deployed();
         await tic.joinplayer1({from:p1});
@@ -34,7 +30,5 @@ contract("tictactoe", accounts =>{
             "player 2 trying to move at occupied cell 5"
         );
     });
-
-
 
 });

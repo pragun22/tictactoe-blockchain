@@ -91,7 +91,9 @@ contract tictactoe {
         }
         return 0;
     }
-
+    function checkBalance() public view returns (uint) {
+        return address(this).balance;
+    }
     function gameStatus() public view returns(string){
         return stats;
     }

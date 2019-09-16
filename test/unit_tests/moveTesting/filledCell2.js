@@ -8,7 +8,7 @@ contract("tictactoe", accounts =>{
     const check2 = "player 1 made move";
     const check3 = "player 2 made move";
 
-    it("player1 trying to move in occupied cell", async()=> {
+    it("Player-1 moving in filled cell test", async()=> {
     
         let tic = await tictactoe.deployed();
         await tic.joinplayer1({from:p1});
