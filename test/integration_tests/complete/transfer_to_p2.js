@@ -10,8 +10,8 @@ contract("tictactoe", accounts =>{
         var balances1=[];
         await web3.eth.getBalance(accounts[18]).then((data)=>{balances1[0]=data});
         await web3.eth.getBalance(accounts[19]).then((data)=>{balances1[1]=data});
-        console.log(balances1[0]);
-        console.log(balances1[1]);
+        // console.log(balances1[0]);
+        // console.log(balances1[1]);
         await tic.joinplayer1({from:p1,value:web3.utils.toWei("4","ether")});
         await tic.joinplayer2({from:p2,value:web3.utils.toWei("4","ether")});  
         // Game 1 begins
@@ -266,9 +266,11 @@ contract("tictactoe", accounts =>{
         var balances=[];
         await web3.eth.getBalance(accounts[18]).then((data)=>{balances[0]=data});
         await web3.eth.getBalance(accounts[19]).then((data)=>{balances[1]=data});
-        console.log(balances[0]);
-        console.log(balances[1]);
+        // console.log(balances[0]);
+        // console.log(balances[1]);
         assert.isTrue(parseFloat(balances[0]) < parseFloat(balances[1]),"transfer to p2 success");
+        // await tic.send();
+
 
     });
 

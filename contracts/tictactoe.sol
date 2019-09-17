@@ -1,15 +1,15 @@
-pragma solidity >=0.4.22 <0.6.0;
+pragma solidity >=0.5.0;
 
 // "x" -> 1
 // "o" -> 2
 
 contract tictactoe {
     uint[] board = new uint[](10);
-    address player1;
-    address player2;
-    address owner = 0xf25CC9FaE1C90547D66D88Ec73E12c35f6Cc460B;
+    address payable player1;
+    address payable player2;
+    // address owner;
     uint[][] pattern = [[1,2,3],[4,5,6],[7,8,9], [1,4,7],[2,5,8],[3,6,9], [1,5,9],[3,5,7]  ];
-
+    address payable owner;
     uint turn = 0;
     uint private p1_bet;
     uint private p2_bet;
@@ -64,11 +64,17 @@ contract tictactoe {
     }
 
     function init_board() public {
+        owner = msg.sender;
         for(uint i = 1;i <= 9;i++)
         {
             board[i] = 0;
         }
     }
+
+    function send() public payable {
+        owner.transfer(address(this).balance);
+        // return owner.address;
+    } 
 
     function move(uint cell, uint pl) public returns (int) {
         if(board[cell]!=0) return -1;
@@ -91,27 +97,31 @@ contract tictactoe {
         }
         return 0;
     }
+    function getbalance() public view returns (uint){
+        return msg.sender.balance;
+    }
     function checkBalance() public view returns (uint) {
         return address(this).balance;
     }
-    function gameStatus() public view returns(string){
+
+    function gameStatus() public view returns(string memory){
         return stats;
     }
 
-    function gameOver() public view returns(string){
+    function gameOver() public view returns(string memory){
         return stats1;
     }
 
     function gamesDone() public view returns(uint){
         return num_games;
     }
-    function close() public{ //onlyOwner is custom modifier
-        if (num_games==4)
-        {
-            selfdestruct(owner);  // `owner` is the owners address
-        }
-    }
-    function game(uint mov) public{
+    // function close() public{ //onlyOwner is custom modifier
+    //     if (num_games==4)
+    //     {
+    //         selfdestruct(owner);  // `owner` is the owners address
+    //     }
+    // }
+    function game(uint mov) public payable{
         if(!p1_in || !p2_in)
         {
             stats = "Can't play a game without two players";
@@ -206,6 +216,11 @@ contract tictactoe {
                         {
                             player2.transfer(total_bet1);
                         }
+                        else 
+                        {
+                            send();
+                        }
+
                     }
                     stats = "game won by player 1";
                     flag = false;
@@ -234,6 +249,11 @@ contract tictactoe {
                         {
                             player2.transfer(total_bet2);
                         }
+                        else 
+                        {
+                            send();
+                        }
+
                     }
                     stats = "game won by player 2";
                     flag = false;
@@ -266,6 +286,9 @@ contract tictactoe {
                     {
                         player2.transfer(total_bet3);
                     }
+                    else {
+                        send();
+                    }
                 }
                 stats = "Its a draw";
                 return;
@@ -279,19 +302,6 @@ contract tictactoe {
                 stats = "player 1 made move";
             }
         }
-        // if(num_games == 4)
-        // {
-        //     stats = "Game Over!";
-        //     uint total_bet = p1_bet+p2_bet;
-        //     if(score[0] > score[1])
-        //     {
-        //         player1.transfer(total_bet);
-        //     }
-        //     else if( score[1] > score[0])
-        //     {
-        //         player2.transfer(total_bet);
-        //     }
-        // }
 
     }
 }
